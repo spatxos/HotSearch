@@ -9,6 +9,11 @@ import (
 )
 
 func GetHotListHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		response.Failed(w, errors.New("only GET requests are allowed"))
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 
 	path := r.URL.Path
