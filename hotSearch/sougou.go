@@ -13,7 +13,7 @@ import (
 type Sougou struct {
 }
 
-func (*Sougou) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Sougou) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	resp, err := http.Get("https://hotlist.imtt.qq.com/Fetch")
 	if err != nil {
 		return model.HotSearchData{}, err

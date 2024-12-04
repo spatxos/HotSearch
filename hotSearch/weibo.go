@@ -13,7 +13,7 @@ import (
 type Weibo struct {
 }
 
-func (*Weibo) GetHotList(maxNum int) (model.HotSearchData, error) {
+func (*Weibo) GetHotSearchData(maxNum int) (model.HotSearchData, error) {
 	resp, err := http.Get("https://m.weibo.cn/api/container/getIndex?containerid=106003type%3D25%26t%3D3%26disable_hot%3D1%26filter_type%3Drealtimehot")
 	if err != nil {
 		return model.HotSearchData{}, err

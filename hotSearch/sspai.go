@@ -12,7 +12,7 @@ import (
 type Sspai struct {
 }
 
-func (*Sspai) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Sspai) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	resp, err := http.Get("https://sspai.com/api/v1/article/tag/page/get?limit=40&offset=0&tag=%E7%83%AD%E9%97%A8%E6%96%87%E7%AB%A0&released=false")
 	if err != nil {
 		return model.HotSearchData{}, err

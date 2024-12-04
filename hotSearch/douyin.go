@@ -11,7 +11,7 @@ import (
 type Douyin struct {
 }
 
-func (*Douyin) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Douyin) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	resp, err := http.Get("https://www.iesdouyin.com/web/api/v2/hotsearch/billboard/word/")
 	if err != nil {
 		return model.HotSearchData{}, err

@@ -14,7 +14,7 @@ import (
 type Baidu struct {
 }
 
-func (*Baidu) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Baidu) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	resp, err := http.Get("https://top.baidu.com/board?tab=realtime")
 	if err != nil {
 		return model.HotSearchData{}, err

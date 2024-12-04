@@ -12,7 +12,7 @@ import (
 type QQnews struct {
 }
 
-func (*QQnews) GetHotList(maxNum int) (model.HotSearchData, error) {
+func (*QQnews) GetHotSearchData(maxNum int) (model.HotSearchData, error) {
 	resp, err := http.Get("https://i.news.qq.com/gw/event/pc_hot_ranking_list?offset=0&page_size=51")
 	if err != nil {
 		return model.HotSearchData{}, err

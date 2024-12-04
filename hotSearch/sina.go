@@ -14,7 +14,7 @@ import (
 type Sina struct {
 }
 
-func (*Sina) GetHotList(maxNum int) (model.HotSearchData, error) {
+func (*Sina) GetHotSearchData(maxNum int) (model.HotSearchData, error) {
 	resp, err := http.Get("https://sinanews.sina.cn/h5/top_news_list.d.html")
 	if err != nil {
 		return model.HotSearchData{}, err

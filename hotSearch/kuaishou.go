@@ -14,7 +14,7 @@ import (
 type Kuaishou struct {
 }
 
-func (*Kuaishou) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Kuaishou) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://www.kuaishou.com/?isHome=1", nil)
 	if err != nil {

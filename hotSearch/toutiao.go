@@ -11,7 +11,7 @@ import (
 type Toutiao struct {
 }
 
-func (*Toutiao) GetHotList(maxNum int) (model.HotSearchData, error) {
+func (*Toutiao) GetHotSearchData(maxNum int) (model.HotSearchData, error) {
 	resp, err := http.Get("https://www.toutiao.com/hot-event/hot-board/?origin=toutiao_pc")
 	if err != nil {
 		return model.HotSearchData{}, err

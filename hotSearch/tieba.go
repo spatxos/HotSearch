@@ -12,7 +12,7 @@ import (
 type Tieba struct {
 }
 
-func (*Tieba) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Tieba) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	resp, err := http.Get("https://tieba.baidu.com/hottopic/browse/topicList")
 	if err != nil {
 		return model.HotSearchData{}, err

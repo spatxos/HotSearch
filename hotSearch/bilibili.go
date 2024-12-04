@@ -12,7 +12,7 @@ import (
 type Bilibili struct {
 }
 
-func (*Bilibili) GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error) {
+func (*Bilibili) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.bilibili.com/x/web-interface/ranking/v2?type=all", nil)
 	if err != nil {

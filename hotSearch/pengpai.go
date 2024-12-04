@@ -12,7 +12,7 @@ import (
 type Pengpai struct {
 }
 
-func (*Pengpai) GetHotList(maxNum int) (model.HotSearchData, error) {
+func (*Pengpai) GetHotSearchData(maxNum int) (model.HotSearchData, error) {
 	resp, err := http.Get("https://cache.thepaper.cn/contentapi/wwwIndex/rightSidebar")
 	if err != nil {
 		return model.HotSearchData{}, err

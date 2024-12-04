@@ -3,7 +3,7 @@ package hotSearch
 import "HotSearch/model"
 
 type Source interface {
-	GetHotList(maxNum int) (HotSearchData model.HotSearchData, err error)
+	GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error)
 }
 
 func NewSource(source string) Source {

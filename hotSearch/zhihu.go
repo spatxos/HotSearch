@@ -15,7 +15,7 @@ import (
 type Zhihu struct {
 }
 
-func (*Zhihu) GetHotList(maxNum int) (model.HotSearchData, error) {
+func (*Zhihu) GetHotSearchData(maxNum int) (model.HotSearchData, error) {
 	resp, err := http.Get("https://www.zhihu.com/billboard")
 	if err != nil {
 		return model.HotSearchData{}, err

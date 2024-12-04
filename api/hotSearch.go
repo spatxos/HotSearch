@@ -27,7 +27,7 @@ func GetHotListHandler(w http.ResponseWriter, r *http.Request) {
 		response.Failed(w, errors.New("source not found"))
 		return
 	}
-	hotSearchData, err := source.GetHotList(30)
+	hotSearchData, err := source.GetHotSearchData(30)
 	if err != nil {
 		response.Failed(w, errors.New("data cannot be obtained: "+err.Error()))
 		return
