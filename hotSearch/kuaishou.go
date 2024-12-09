@@ -3,12 +3,14 @@ package hotSearch
 import (
 	"HotSearch/model"
 	"errors"
-	"github.com/tidwall/gjson"
 	"io"
 	"net/http"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
+
+	"github.com/tidwall/gjson"
 )
 
 type Kuaishou struct {
@@ -48,15 +50,29 @@ func (*Kuaishou) GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData
 		if !index.Exists() {
 			break
 		}
+		result := escapeSpecialCharacters(index.Str)
 		hotList = append(hotList, model.HotItem{
-			Index:       int(gjson.Get(jsonStr, "defaultClient."+index.Str+".rank").Int() + 1),
-			Title:       gjson.Get(jsonStr, "defaultClient."+index.Str+".name").Str,
+			Index:       int(gjson.Get(jsonStr, "defaultClient."+result+".rank").Int() + 1),
+			Title:       gjson.Get(jsonStr, "defaultClient."+result+".name").Str,
 			Description: "",
-			Image:       gjson.Get(jsonStr, "defaultClient."+index.Str+".poster").Str,
-			Popularity:  gjson.Get(jsonStr, "defaultClient."+index.Str+".hotValue").Str,
-			URL:         "https://www.kuaishou.com/short-video/" + gjson.Get(jsonStr, "defaultClient."+index.Str+".photoIds.json.0").Str + "?streamSource=hotrank&trendingId=" + gjson.Get(jsonStr, "defaultClient."+index.Str+".id").Str + "&area=homexxunknown",
+			Image:       gjson.Get(jsonStr, "defaultClient."+result+".poster").Str,
+			Popularity:  gjson.Get(jsonStr, "defaultClient."+result+".hotValue").Str,
+			URL:         "https://www.kuaishou.com/short-video/" + gjson.Get(jsonStr, "defaultClient."+result+".photoIds.json.0").Str + "?streamSource=hotrank&trendingId=" + gjson.Get(jsonStr, "defaultClient."+result+".id").Str + "&area=homexxunknown",
 		})
 	}
 
 	return model.HotSearchData{Source: "快手热榜", UpdateTime: updateTime, HotList: hotList}, nil
+}
+
+func escapeSpecialCharacters(str string) string {
+	var result strings.Builder
+
+	for _, char := range str {
+		if char == '.' {
+			result.WriteRune('\\')
+		}
+		result.WriteRune(char)
+	}
+
+	return result.String()
 }
