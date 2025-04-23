@@ -1,4 +1,4 @@
-module HotSearch
+module github.com/spatxos/HotSearch
 
 go 1.22.5
 
