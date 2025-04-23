@@ -3,22 +3,31 @@
 
 这是一个基于Go语言实现的API接口，用于获取多个新闻平台的热搜数据。该接口能够实时抓取各大新闻网站的热搜内容，并返回相关的详细信息，提供统一的API服务。
 
-### 请求格式
+### 运行命令
+
+```bash
+go run main.go
+```
+
+服务将在 `http://127.0.0.1:7490` 启动。
+
+### 接口说明
+
+#### 1. 获取单个来源的热搜数据
 
 ```
 GET http://127.0.0.1:7490/api/news/:source
 ```
 
-### 请求参数
+##### 请求参数
 
 | 参数   | 类型   | 说明                                                         | 是否必填 |
 | ------ | ------ | ------------------------------------------------------------ | -------- |
 | source | string | 热榜来源平台标识，支持以下值：<br>`baidu`、`bilibili`、`douyin`、`kuaishou`、`pengpai`、`qqnews`、`sina`、`sougou`、`sspai`、`tieba`、`toutiao`、`weibo`、`zhihu` | 是       |
 
-### 响应示例
+##### 响应示例
 
-#### 成功响应示例：
-
+成功响应：
 ```json
 {
     "code": 0,
@@ -49,13 +58,7 @@ GET http://127.0.0.1:7490/api/news/:source
 }
 ```
 
-**提示**：
-
-- 除澎湃热榜返回20条数据外，其他平台返回30条数据。
-- 不是所有平台的返回数据都包含 `description`、`image` 和 `popularity` 字段。
-
-#### 失败响应示例：
-
+失败响应：
 ```json
 {
     "code": 7,
@@ -68,9 +71,65 @@ GET http://127.0.0.1:7490/api/news/:source
 }
 ```
 
-### 实现细节
+#### 2. 获取所有可用的热搜来源
 
-#### 响应封装结构
+```
+GET http://127.0.0.1:7490/api/sources
+```
+
+##### 响应示例
+```json
+{
+    "code": 0,
+    "data": [
+        "baidu",
+        "bilibili",
+        "douyin",
+        "kuaishou",
+        "pengpai",
+        "qqnews",
+        "sina",
+        "sougou",
+        "sspai",
+        "tieba",
+        "toutiao",
+        "weibo",
+        "zhihu"
+    ],
+    "msg": "success"
+}
+```
+
+#### 3. 获取所有来源的热搜数据
+
+```
+GET http://127.0.0.1:7490/api/all
+```
+
+##### 响应示例
+```json
+{
+    "code": 0,
+    "data": {
+        "baidu": {
+            "source": "百度热搜",
+            "update_time": "2024-03-21 10:00:00",
+            "hot_list": [...]
+        },
+        "bilibili": {
+            "source": "B站排行榜",
+            "update_time": "2024-03-21 10:00:00",
+            "hot_list": [...]
+        },
+        // ... 其他来源的数据
+    },
+    "msg": "success"
+}
+```
+
+### 数据结构
+
+#### 1. 响应封装结构
 
 ```go
 package response
@@ -93,9 +152,41 @@ type Response struct {
 	Msg  string              `json:"msg"`    // 响应消息
 }
 
+// SourceListResponse 来源列表响应结构
+type SourceListResponse struct {
+	Code int      `json:"code"`
+	Data []string `json:"data"`
+	Msg  string   `json:"msg"`
+}
+
+// AllHotSearchResponse 所有热搜数据响应结构
+type AllHotSearchResponse struct {
+	Code int                     `json:"code"`
+	Data map[string]model.HotSearchData `json:"data"`
+	Msg  string                 `json:"msg"`
+}
+
 // OkWithData 成功响应
 func OkWithData(w http.ResponseWriter, data model.HotSearchData) {
 	_ = json.NewEncoder(w).Encode(Response{
+		Code: SUCCESS,
+		Data: data,
+		Msg:  "success",
+	})
+}
+
+// OkWithSourceList 成功响应来源列表
+func OkWithSourceList(w http.ResponseWriter, sources []string) {
+	_ = json.NewEncoder(w).Encode(SourceListResponse{
+		Code: SUCCESS,
+		Data: sources,
+		Msg:  "success",
+	})
+}
+
+// OkWithAllHotSearch 成功响应所有热搜数据
+func OkWithAllHotSearch(w http.ResponseWriter, data map[string]model.HotSearchData) {
+	_ = json.NewEncoder(w).Encode(AllHotSearchResponse{
 		Code: SUCCESS,
 		Data: data,
 		Msg:  "success",
@@ -112,7 +203,7 @@ func Failed(w http.ResponseWriter, err error) {
 }
 ```
 
-#### 数据模型
+#### 2. 数据模型
 
 ```go
 package model
@@ -134,6 +225,11 @@ type HotSearchData struct {
 	HotList    []HotItem `json:"hot_list"`    // 热搜列表
 }
 ```
+
+### 注意事项
+
+1. 除澎湃热榜返回20条数据外，其他平台返回30条数据。
+2. 不是所有平台的返回数据都包含 `description`、`image` 和 `popularity` 字段。
 
 ### 支持的热榜来源
 
