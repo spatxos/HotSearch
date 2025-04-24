@@ -1,7 +1,7 @@
 package hotSearch
 
 import (
-	"HotSearch/model"
+	"github.com/spatxos/HotSearch/model"
 	"errors"
 	"fmt"
 	"github.com/tidwall/gjson"

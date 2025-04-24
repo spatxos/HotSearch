@@ -1,14 +1,15 @@
 package hotSearch
 
 import (
-	"HotSearch/model"
 	"errors"
-	"github.com/tidwall/gjson"
 	"io"
 	"net/http"
 	"regexp"
 	"strconv"
 	"time"
+
+	"github.com/spatxos/HotSearch/model"
+	"github.com/tidwall/gjson"
 )
 
 type Baidu struct {

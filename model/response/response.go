@@ -1,7 +1,7 @@
 package response
 
 import (
-	"HotSearch/model"
+	"github.com/spatxos/HotSearch/model"
 	"encoding/json"
 	"net/http"
 )

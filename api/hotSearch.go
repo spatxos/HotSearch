@@ -1,9 +1,9 @@
 package api
 
 import (
-	"HotSearch/hotSearch"
-	"HotSearch/model"
-	"HotSearch/model/response"
+	"github.com/spatxos/HotSearch/hotSearch"
+	"github.com/spatxos/HotSearch/model"
+	"github.com/spatxos/HotSearch/model/response"
 	"errors"
 	"net/http"
 	"strings"

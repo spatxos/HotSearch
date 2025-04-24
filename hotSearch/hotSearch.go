@@ -1,6 +1,6 @@
 package hotSearch
 
-import "HotSearch/model"
+import "github.com/spatxos/HotSearch/model"
 
 type Source interface {
 	GetHotSearchData(maxNum int) (HotSearchData model.HotSearchData, err error)

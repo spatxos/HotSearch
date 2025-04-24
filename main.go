@@ -1,9 +1,10 @@
 package main
 
 import (
-	"HotSearch/api"
 	"log"
 	"net/http"
+
+	"github.com/spatxos/HotSearch/api"
 )
 
 func main() {
