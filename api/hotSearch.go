@@ -3,7 +3,6 @@ package api
 import (
 	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/spatxos/HotSearch/hotSearch"
 	"github.com/spatxos/HotSearch/model"
@@ -18,18 +17,17 @@ func GetHotListHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	path := r.URL.Path
-	segments := strings.Split(path, "/")
-	if len(segments) != 4 {
-		response.Failed(w, errors.New("URL parameter error"))
+	source := r.URL.Query().Get("source")
+	if source == "" {
+		response.Failed(w, errors.New("source parameter is required"))
 		return
 	}
-	source := hotSearch.NewSource(segments[3])
-	if source == nil {
+	sourceInstance := hotSearch.NewSource(source)
+	if sourceInstance == nil {
 		response.Failed(w, errors.New("source not found"))
 		return
 	}
-	hotSearchData, err := source.GetHotSearchData(30)
+	hotSearchData, err := sourceInstance.GetHotSearchData(30)
 	if err != nil {
 		response.Failed(w, errors.New("data cannot be obtained: "+err.Error()))
 		return
