@@ -1,4 +1,22 @@
 # HotSearch
+
+## 文档导航
+
+- [功能概述](#功能概述)
+- [运行命令](#运行命令)
+- [接口说明](#接口说明)
+  - [获取单个来源的热搜数据](#1-获取单个来源的热搜数据)
+  - [获取所有可用的热搜来源](#2-获取所有可用的热搜来源)
+  - [获取所有来源的热搜数据](#3-获取所有来源的热搜数据)
+- [数据结构](#数据结构)
+  - [响应封装结构](#1-响应封装结构)
+  - [数据模型](#2-数据模型)
+- [注意事项](#注意事项)
+- [支持的热榜来源](#支持的热榜来源)
+- [API 文档](#api-文档)
+- [项目引用说明](#项目引用说明)
+- [文档导航](#文档导航)
+
 ### 功能概述
 
 这是一个基于Go语言实现的API接口，用于获取多个新闻平台的热搜数据。该接口能够实时抓取各大新闻网站的热搜内容，并返回相关的详细信息，提供统一的API服务。
@@ -16,7 +34,7 @@ go run main.go
 #### 1. 获取单个来源的热搜数据
 
 ```
-GET http://127.0.0.1:7490/api/news/:source
+GET http://127.0.0.1:7490/api/news?source=:source
 ```
 
 ##### 请求参数
@@ -251,7 +269,7 @@ type HotSearchData struct {
 
 ## API 文档
 
-### 获取热搜列表
+### 1. 获取热搜列表
 
 - 请求方式：GET
 - 请求地址：`/api/news?source={source}`
@@ -275,3 +293,81 @@ type HotSearchData struct {
     }
   }
   ```
+
+### 2. 获取所有数据源
+
+- 请求方式：GET
+- 请求地址：`/api/sources`
+- 返回数据：
+  ```json
+  {
+    "code": 200,
+    "message": "success",
+    "data": [
+      "douyin",
+      "bilibili",
+      "tieba",
+      "toutiao",
+      "pengpai",
+      "kuaishou",
+      "zhihu",
+      "sina",
+      "sspai",
+      "weibo",
+      "qqnews",
+      "sougou"
+    ]
+  }
+  ```
+
+### 3. 获取所有数据源的热搜数据
+
+- 请求方式：GET
+- 请求地址：`/api/all`
+- 返回数据：
+  ```json
+  {
+    "code": 200,
+    "message": "success",
+    "data": {
+      "douyin": {
+        "source": "抖音热榜",
+        "updateTime": "更新时间",
+        "list": [...]
+      },
+      "bilibili": {
+        "source": "B站排行榜",
+        "updateTime": "更新时间",
+        "list": [...]
+      },
+      // ... 其他数据源
+    }
+  }
+  ```
+
+## 项目引用说明
+
+### Go 项目引用
+
+1. 添加依赖：
+```bash
+go get github.com/spatxos/HotSearch
+```
+
+2. 在代码中使用：
+```go
+import (
+	"github.com/spatxos/HotSearch/api"
+)
+
+// 使用示例
+func main() {
+	var httpServer http.Server
+    http.HandleFunc("/api/hotsearch/list", api.GetHotListHandler)
+	http.HandleFunc("/api/hotsearch/sources", api.GetSourcesHandler)
+	http.HandleFunc("/api/hotsearch/all", api.GetAllHotListHandler)
+    ...
+}
+```
+
+
