@@ -248,3 +248,30 @@ type HotSearchData struct {
 - `toutiao`：头条热榜
 - `weibo`：微博热搜
 - `zhihu`：知乎热榜
+
+## API 文档
+
+### 获取热搜列表
+
+- 请求方式：GET
+- 请求地址：`/api/news?source={source}`
+- 请求参数：
+  - source: 数据源名称，可选值：`douyin`, `bilibili`, `tieba`, `toutiao`, `pengpai`, `kuaishou`, `zhihu`, `sina`, `sspai`, `weibo`, `qqnews`, `sougou`
+- 返回数据：
+  ```json
+  {
+    "code": 200,
+    "message": "success",
+    "data": {
+      "source": "数据源名称",
+      "updateTime": "更新时间",
+      "list": [
+        {
+          "title": "热搜标题",
+          "url": "热搜链接",
+          "hot": "热度值"
+        }
+      ]
+    }
+  }
+  ```
